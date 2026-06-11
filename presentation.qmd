@@ -4,7 +4,7 @@ subtitle: '**From Raw Data to Well-Done Visualizations**'
 author:
   - name: 'Kevin Madden <br> *Assistant Director of Annual Giving* <br> *Villanova University*'
     # email: <br> *kevin.madden@villanova.edu*
-date: 16 July 2026
+date: 15 July 2026
 date-format: long
 format:
     revealjs:
