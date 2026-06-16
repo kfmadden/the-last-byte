@@ -12,6 +12,7 @@ format:
         scrollable: true
         reference-location: document
         theme: dracula_custom.scss
+bibliography: references.bib
 ---
 
 ## Sourcing Your Data
@@ -31,10 +32,14 @@ A footer, of sorts.
 - Transform it
 
 ## Exploring Your Data
-- Get stats
+- Get stats [@donor_data]
 - Basic plots
 
 ## Visualizing Your Data
+
+
+
+## Code Blocks
 
 ``` {.python code-line-numbers="4-5|7|10"}
 import numpy as np
@@ -48,3 +53,7 @@ ax.set_rticks([0.5, 1, 1.5, 2])
 ax.grid(True)
 plt.show()
 ```
+
+## References
+::: {refs}
+:::

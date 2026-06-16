@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Kevin Madden   Assistant Director of Annual Giving   Villanova University">
-  <meta name="dcterms.date" content="2026-07-16">
+  <meta name="dcterms.date" content="2026-07-15">
   <title>The Last Byte</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -98,7 +98,26 @@
     code span.va { color: #00e0e0; } /* Variable */
     code span.vs { color: #abe338; } /* VerbatimString */
     code span.wa { color: #dcc6e0; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/theme/quarto-f5293b3a8ae05b9663bc296a28c0e2dd.css">
   <link href="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="presentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -209,7 +228,7 @@ Kevin Madden <br> <em>Assistant Director of Annual Giving</em> <br> <em>Villanov
 </div>
 </div>
 
-  <p class="date">July 16, 2026</p>
+  <p class="date">July 15, 2026</p>
 </section>
 <section id="sourcing-your-data" class="slide level2">
 <h2>Sourcing Your Data</h2>
@@ -232,12 +251,17 @@ Kevin Madden <br> <em>Assistant Director of Annual Giving</em> <br> <em>Villanov
 <section id="exploring-your-data" class="slide level2">
 <h2>Exploring Your Data</h2>
 <ul>
-<li>Get stats</li>
+<li>Get stats <span class="citation" data-cites="donor_data">(<a href="#/references" role="doc-biblioref" onclick="">Brown 2025</a>)</span></li>
 <li>Basic plots</li>
 </ul>
 </section>
 <section id="visualizing-your-data" class="slide level2">
 <h2>Visualizing Your Data</h2>
+<iframe title="MSBA 8240 Final Project - NovaRealty" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=0c27e1fb-d214-47a9-90fb-13b484d87972&amp;autoAuth=true&amp;ctid=765a8de5-cf94-44f0-9caf-ae5bf8cfa366&amp;actionBarEnabled=true" frameborder="0" allowfullscreen="true">
+</iframe>
+</section>
+<section id="code-blocks" class="slide level2">
+<h2>Code Blocks</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-code-line-numbers="4-5|7|10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href=""></a></span>
@@ -248,7 +272,18 @@ Kevin Madden <br> <em>Assistant Director of Annual Giving</em> <br> <em>Villanov
 <span id="cb1-8"><a href=""></a>ax.set_rticks([<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>])</span>
 <span id="cb1-9"><a href=""></a>ax.grid(<span class="va">True</span>)</span>
 <span id="cb1-10"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+<div class="{refs}">
 
+</div>
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-donor_data" class="csl-entry" role="listitem">
+Brown, Danielle. 2025. <em>Synthetic Donor Dataset with Multimodal Fusion Predictions</em>. M.S. in Computer Science Senior Capstone Project. Loyola Marymount University. <a href="https://www.kaggle.com/datasets/dbrown86/synthetic-donor-dataset-for-fundraising-analytics">https://www.kaggle.com/datasets/dbrown86/synthetic-donor-dataset-for-fundraising-analytics</a>.
+</div>
+</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document smaller scrollable" role="doc-endnotes"><h2>Footnotes</h2>
 
