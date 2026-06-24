@@ -36,6 +36,9 @@ A footer, of sorts.
 - Basic plots
 
 ## Visualizing Your Data
+![](https://cup-us.imgix.net/covers/9780231193115.jpg?auto=format&w=350)
+
+- This [book](https://cup.columbia.edu/book/better-data-visualizations/9780231193115/) by @schwabish is an extremely useful resource
 
 
 
