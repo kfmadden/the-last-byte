@@ -8,12 +8,25 @@ date: 15 July 2026
 date-format: long
 format:
     revealjs:
+        embed-resources: true
+        self-contained-math: true
         smaller: true
         scrollable: true
         reference-location: document
         theme: dracula_custom.scss
 bibliography: references.bib
 ---
+
+## Before We Begin...
+::: {style='text-align: center;'}
+*What is your level of experience with data visualizations?*
+:::
+
+![](C:\Users\madde\Positron\the-last-byte\quiz1.png){fig-align="center" height=20%}
+
+## Poll Results
+
+<div class="strawpoll-embed" id="strawpoll_w4nWWpQXlnA" style="height: 708px; max-width: 640px; width: 100%; margin: 0 auto; display: flex; flex-direction: column;"><iframe title="StrawPoll Embed" id="strawpoll_iframe_w4nWWpQXlnA" src="https://strawpoll.com/embed/w4nWWpQXlnA/results" style="position: static; visibility: visible; display: block; width: 100%; flex-grow: 1;" frameborder="0" allowfullscreen allowtransparency>Loading...</iframe><script nonce="NWRhMzhjM2RjZWRlNzJiZWFlNzlhMzc1YTg5YmE1YmFlYWI0ZjUzMw==" async src="https://cdn.strawpoll.com/dist/widgets.js" charset="utf-8"></script></div>
 
 ## Sourcing Your Data
 
@@ -40,7 +53,16 @@ A footer, of sorts.
 
 - This [book](https://cup.columbia.edu/book/better-data-visualizations/9780231193115/) by @schwabish is an extremely useful resource
 
+## Pulse Check
+::: {style='text-align: center;'}
+*Which data viz tools have you used before?*
+:::
 
+![](C:\Users\madde\Positron\the-last-byte\quiz2.png){fig-align="center" height=20%}
+
+##
+
+<div class="strawpoll-embed" id="strawpoll_61gD9NVvVZw" style="height: 836px; max-width: 640px; width: 100%; margin: 0 auto; display: flex; flex-direction: column;"><iframe title="StrawPoll Embed" id="strawpoll_iframe_61gD9NVvVZw" src="https://strawpoll.com/embed/61gD9NVvVZw/results" style="position: static; visibility: visible; display: block; width: 100%; flex-grow: 1;" frameborder="0" allowfullscreen allowtransparency>Loading...</iframe><script nonce="ZmUwYjJjMDJhOWM3OWM3OTI4MmY0YzkxMjcyZjYyZDg0ODc3OTViMQ==" async src="https://cdn.strawpoll.com/dist/widgets.js" charset="utf-8"></script></div>
 
 ## Code Blocks
 
