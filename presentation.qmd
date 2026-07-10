@@ -12,7 +12,7 @@ format:
         self-contained-math: true
         smaller: true
         scrollable: true
-        reference-location: document
+#        reference-location: document
         theme: dracula_custom.scss
 bibliography: references.bib
 ---
@@ -22,22 +22,377 @@ bibliography: references.bib
 *What is your level of experience with data visualizations?*
 :::
 
-![](C:\Users\madde\Positron\the-last-byte\quiz1.png){fig-align="center" height=20%}
+![](https://github.com/kfmadden/the-last-byte/blob/main/quiz1.png?raw=true){fig-align="center" height=20%}
 
-## Poll Results
+## Opening Survey Results
 
 <div class="strawpoll-embed" id="strawpoll_w4nWWpQXlnA" style="height: 708px; max-width: 640px; width: 100%; margin: 0 auto; display: flex; flex-direction: column;"><iframe title="StrawPoll Embed" id="strawpoll_iframe_w4nWWpQXlnA" src="https://strawpoll.com/embed/w4nWWpQXlnA/results" style="position: static; visibility: visible; display: block; width: 100%; flex-grow: 1;" frameborder="0" allowfullscreen allowtransparency>Loading...</iframe><script nonce="NWRhMzhjM2RjZWRlNzJiZWFlNzlhMzc1YTg5YmE1YmFlYWI0ZjUzMw==" async src="https://cdn.strawpoll.com/dist/widgets.js" charset="utf-8"></script></div>
 
-## Sourcing Your Data
+## Session Overview
 
-:::{.incremental}
-- Find it ^[From somewhere]
-- Save it ^[To someplace]
-- Call it ^[Into your IDE]
+:::: {.columns}
+
+::: {.column width='45%'}
+<u>What we *WON'T* focus on</u>
+
+::: {.fragment}
+- Data wrangling/cleaning/mining
+  - [Cross Industry Standard Process for Data Mining (CRISP-DM)](https://www.datascience-pm.com/crisp-dm-2/)
+  - [Extract-Transform-Load (ETL)](https://www.databricks.com/discover/etl)
+:::
+::: {.fragment}
+- Programming and coding tutorials
+  - [R](https://rstudio-education.github.io/hopr/) and [Python](https://nostarch.com/python-crash-course-3rd-edition)
+  - [Power Query M formula language](https://learn.microsoft.com/en-us/powerquery-m/)
+  - [Data Analysis Expressions (DAX)](https://learn.microsoft.com/en-us/dax/)
+:::
 :::
 
-::: aside
-A footer, of sorts.
+::: {.column width='10%'}
+:::
+
+::: {.column width='45%'}
+<u>What we *WILL* focus on</u>
+
+::: {.fragment}
+- Data viz theory
+  - Gestalt principles of visual perception
+  - Preattentive processing
+:::
+::: {.fragment}
+- Data viz best practices
+  - What makes visualizations good (and not-so-good)
+:::
+::: {.fragment}
+- Types of visualizations and their use cases
+  - Advancement-specific examples
+:::
+:::
+
+::::
+
+## So...Why Visualizations?
+
+Why not just stick to Excel sheets or tables with raw numbers?
+
+
+## Gestalt Principles of Visual Perception
+
+::: {style='text-align: center;'}
+[<u>Gestalt</u> $\approx$ unified whole, configuration]{.highlight-orange}
+:::
+
+. . .
+
+Our brains tend to group objects based on some of the following criteria:
+
+:::: {.columns}
+
+::: {.column width='47%'}
+
+::: {.fragment}
+- **Proximity**
+  - The objects are close to one another.
+:::
+
+::: {.fragment}
+- **Similarity**
+  - The objects share features, such as color, size, shape, or direction.
+:::
+
+::: {.fragment}
+- **Enclosure**
+  - There is a defined boundary surrounding the objects.
+:::
+
+:::
+
+::: {.column width='6%'}
+:::
+
+::: {.column width='47%'}
+
+::: {.fragment}
+- **Closure**
+  - Gaps between the objects are suggestive of a whole.
+:::
+::: {.fragment}
+- **Continuity**
+  - The objects align or continue in a discernible order.
+:::
+::: {.fragment}
+- **Connection**
+  - The objects are connected to each other.
+:::
+
+:::
+
+::::
+
+## Examples of Gestalt Principles
+
+::: {.panel-tabset}
+
+### Proximity
+```{r proximity}
+library(pacman)
+p_load(ggplot2, dplyr)
+set.seed(1217)
+
+clust_A <- data.frame(
+  x = rnorm(200, mean = 2, sd = 0.3),
+  y = rnorm(200, mean = 2, sd = 0.3),
+  group = 'A')
+
+clust_B <- data.frame(
+  x = rnorm(500, mean = 4, sd = 0.5),
+  y = rnorm(500, mean = 4, sd = 0.5),
+  group = 'B')
+
+data <- rbind(clust_A, clust_B)
+
+ggplot(data, aes(x = x, y = y)) +
+  geom_point(color = '#ff79c6', alpha = 0.5, size = 3) +
+  labs(title = 'Objects close to one another tend to be perceived as a group.') +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold')
+  )
+```
+
+### Similarity
+```{r similarity}
+ggplot(data, aes(x = x, y = y, color = group)) +
+  geom_point(alpha = 0.5, size = 3) +
+  labs(title = 'Objects sharing similar attributes like color tend to be perceived as a group.') +
+  scale_color_manual(values = c('#ffb86c', '#8be9fd')) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'),
+    legend.position = 'none'
+  )
+```
+
+### Enclosure
+```{r enclosure}
+p_load(ggforce)
+ggplot(data, aes(x = x, y = y, color = group)) +
+  geom_point(alpha = 0.5, size = 3) +
+  labs(title = 'Objects enclosed by a boundary tend to be perceived as a group.') +
+  geom_mark_ellipse(aes(color = group)) +
+  scale_color_manual(values = c('#ffb86c', '#8be9fd')) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'),
+    legend.position = 'none'
+  )
+```
+
+### Closure
+```{r closure}
+set.seed(1217)
+close_data_missing <- data.frame(x = c(1:30)) %>% 
+  mutate(
+    y = ifelse(
+      x %in% c(20:25),
+      NA,
+      rnorm(100, mean = 2, sd = 1)
+    )
+  )
+
+close_data_expected <- close_data_missing %>% 
+  filter(
+    x == 19 | x == 26
+  )
+
+close_data_actual <- close_data_missing %>% 
+  mutate(
+    y = ifelse(
+      x == 19 | x == 26,
+      close_data_missing$y,
+      ifelse(
+        x < 20 | x > 25,
+        NA,
+        rnorm(100, mean = 4, sd = 1)
+      )
+    )
+  )
+
+p1 <- ggplot(close_data_missing, aes(x = x, y = y)) +
+  geom_line(linewidth = 1, color = '#ffb86c') +
+  labs(title = 'Our brains tend to fill in the gaps between objects, completing suggested patterns.') +
+  ylim(-1,8) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold')
+  )
+
+p2 <- p1 +
+  geom_line(data = close_data_expected, linewidth = 1, linetype = 'dashed', color = '#8be9fd')
+
+p3 <- p2 +
+  geom_line(data = close_data_actual, linewidth = 1, color = '#ffb86c', alpha = 0.5) +
+  labs(subtitle = 'But sometimes, our brains are wrong!') +
+  theme(
+    plot.subtitle = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold.italic', size = 12)
+  )
+```
+
+::: {.r-stack}
+```{r closure-plot-1}
+p1
+```
+
+::: {.fragment}
+```{r closure-plot-2}
+p2
+```
+:::
+
+::: {.fragment}
+```{r closure-plot-3}
+p3
+```
+:::
+:::
+
+### Continuity
+```{r continuity}
+cont_data <- data.frame(
+  x = c('A', 'B', 'C', 'D', 'E', 'F', 'G'),
+  y = c(100, 150, 90, 180, 200, 70, 120)
+)
+
+p1 <- ggplot(cont_data, aes(x = x, y = y))+
+  geom_bar(stat = 'identity', fill = '#ffb86c') +
+  labs(title = 'Our eyes more readily perceive smooth and continuous paths, lines, and curves as connected forms.') +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold')
+  )
+
+p2 <- ggplot(cont_data, aes(x = reorder(x, -y), y = y))+
+  geom_bar(stat = 'identity', fill = '#8be9fd') +
+  labs(title = 'Our eyes more readily perceive smooth and continuous paths, lines, and curves as connected forms.') +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold')
+  )
+
+# (p1 | p2) +
+#   plot_annotation(
+#     title = 'Our eyes more readily perceive smooth and continuous paths, lines, and curves as connected forms.',
+#     theme = theme(
+#       plot.background = element_rect(fill = '#282a36', color = NA),
+#       panel.background = element_rect(fill = '#282a36', color = NA),
+#       plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'))
+#   )
+```
+
+::: {.r-stack}
+```{r continuity-plot-1}
+p1
+```
+
+::: {.fragment}
+```{r continuity-plot-2}
+p2
+```
+:::
+:::
+
+### Connection
+```{r connection}
+set.seed(1217)
+connect_data <- data.frame(
+  x = rep(1:50, 2),
+  group = rep(c('A', 'B'), each = 50)) %>% 
+    mutate(
+      y = ifelse(
+        group == 'A',
+        rnorm(100, mean = 4, sd = 1),
+        rnorm(100, mean = 2, sd = 1))
+    )
+
+p1 <- ggplot(connect_data, aes(x = x, y = y)) +
+  geom_point(size = 3, color = '#ff79c6') +
+  labs(title = 'Connected objects tend to be perceived as a group.') +
+  ylim(-2,10) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'),
+    legend.position = 'none'
+  )
+
+p2 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
+  geom_point(size = 3) +
+  labs(title = 'Connected objects tend to be perceived as a group.') +
+  scale_color_manual(values = c('#ffb86c', '#8be9fd')) +
+  ylim(-2,10) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'),
+    legend.position = 'none'
+  )
+
+p3 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1) +
+  labs(title = 'Connected objects tend to be perceived as a group.') +
+  scale_color_manual(values = c('#ffb86c', '#8be9fd')) +
+  ylim(-2,10) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = '#282a36', color = NA),
+    panel.background = element_rect(fill = '#282a36', color = NA),
+    plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'),
+    legend.position = 'none'
+  )
+
+# (p1 / p2 / p3) +
+#   plot_annotation(
+#     title = 'Connected objects tend to be perceived as a group.',
+#     theme = theme(
+#       plot.background = element_rect(fill = '#282a36', color = NA),
+#       panel.background = element_rect(fill = '#282a36', color = NA),
+#       plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'))
+#   )
+```
+
+::: {.r-stack}
+```{r connection-plot-1}
+p1
+```
+
+::: {.fragment}
+```{r connection-plot-2}
+p2
+```
+:::
+
+::: {.fragment}
+```{r connection-plot-3}
+p3
+```
+:::
+:::
+
 :::
 
 ## Cleaning Your Data
@@ -58,11 +413,11 @@ A footer, of sorts.
 *Which data viz tools have you used before?*
 :::
 
-![](C:\Users\madde\Positron\the-last-byte\quiz2.png){fig-align="center" height=20%}
+![](https://github.com/kfmadden/the-last-byte/blob/main/quiz2.png?raw=true){fig-align="center" height=20%}
 
-##
+## Pulse Check Results
 
-<div class="strawpoll-embed" id="strawpoll_61gD9NVvVZw" style="height: 836px; max-width: 640px; width: 100%; margin: 0 auto; display: flex; flex-direction: column;"><iframe title="StrawPoll Embed" id="strawpoll_iframe_61gD9NVvVZw" src="https://strawpoll.com/embed/61gD9NVvVZw/results" style="position: static; visibility: visible; display: block; width: 100%; flex-grow: 1;" frameborder="0" allowfullscreen allowtransparency>Loading...</iframe><script nonce="ZmUwYjJjMDJhOWM3OWM3OTI4MmY0YzkxMjcyZjYyZDg0ODc3OTViMQ==" async src="https://cdn.strawpoll.com/dist/widgets.js" charset="utf-8"></script></div>
+<div class="strawpoll-embed" id="strawpoll_61gD9NVvVZw" style="height: 708px; max-width: 640px; width: 100%; margin: 0 auto; display: flex; flex-direction: column;"><iframe title="StrawPoll Embed" id="strawpoll_iframe_61gD9NVvVZw" src="https://strawpoll.com/embed/61gD9NVvVZw" style="position: static; visibility: visible; display: block; width: 100%; flex-grow: 1;" frameborder="0" allowfullscreen allowtransparency>Loading...</iframe><script nonce="ZmZjYTJhNGYxMWQ0ZDMxNjJkNDMxZjM5N2IzNTU4NDRhOTgwMjBiNg==" async src="https://cdn.strawpoll.com/dist/widgets.js" charset="utf-8"></script></div>
 
 ## Code Blocks
 

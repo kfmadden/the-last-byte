@@ -58,6 +58,10 @@ $light-bg-text-color: $body-bg !default;
   --r-list-bullet-color: #{$presentation-list-bullet-color};
 }
 
+.highlight-orange{
+  color: #ffb86c !important;
+}
+
 .reveal {
   strong,
   b {

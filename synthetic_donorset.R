@@ -12,10 +12,10 @@ donors <- read_csv(
 # ) %>%
 #     clean_names()
 
-# giving_history <- read_csv(
-#     'https://raw.githubusercontent.com/dbrown86/LMUCapstoneProject/refs/heads/main/data/synthetic_donor_dataset/giving_history.csv'
-# ) %>%
-#     clean_names()
+giving_history <- read_csv(
+    'https://raw.githubusercontent.com/dbrown86/LMUCapstoneProject/refs/heads/main/data/synthetic_donor_dataset/giving_history.csv'
+) %>%
+    clean_names()
 
 # enhanced_fields <- read_csv(
 #     'https://raw.githubusercontent.com/dbrown86/LMUCapstoneProject/refs/heads/main/data/synthetic_donor_dataset/enhanced_fields.csv'
