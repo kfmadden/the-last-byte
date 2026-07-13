@@ -40,7 +40,7 @@ quiz1 <- qr_code('https://strawpoll.com/w4nWWpQXlnA')
 
 png(filename = 'quiz1.png', bg = 'transparent')
 par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0), xaxs = 'i', yaxs = 'i')
-plot(quiz1, col = c('#282a36','#f8f8f2'), main = NA)
+plot(quiz1, col = c('#282a36', '#f8f8f2'), main = NA)
 dev.off()
 ```
 
@@ -140,32 +140,39 @@ Let's start with an essential example:
 
 ## Anscombe's Quartet
 ```{r anscombe}
+#| echo: false
+#| include: false
+
 p_load(gt, gtExtras)
 
-anscombe_data <- anscombe %>% 
-  mutate(obs = row_number()) %>% 
-  select(9,1,5,2,6,3,7,4,8)
+anscombe_data <- anscombe %>%
+  mutate(obs = row_number()) %>%
+  select(9, 1, 5, 2, 6, 3, 7, 4, 8)
 
-anscombe_table <- gt(anscombe_data) %>% 
+anscombe_table <- gt(anscombe_data) %>%
   tab_header(
     title = 'Observations'
   ) %>%
   tab_spanner(
-    label = 'Set 1', columns = ends_with('1')
-  ) %>% 
-  tab_spanner(
-    label = 'Set 2', columns = ends_with('2')
+    label = 'Set 1',
+    columns = ends_with('1')
   ) %>%
   tab_spanner(
-    label = 'Set 3', columns = ends_with('3')
+    label = 'Set 2',
+    columns = ends_with('2')
   ) %>%
   tab_spanner(
-    label = 'Set 4', columns = ends_with('4')
-  ) %>% 
+    label = 'Set 3',
+    columns = ends_with('3')
+  ) %>%
+  tab_spanner(
+    label = 'Set 4',
+    columns = ends_with('4')
+  ) %>%
   fmt_number(
     columns = c(2:9),
     decimals = 2
-  ) %>% 
+  ) %>%
   cols_label(
     obs = 'Obs. No.',
     x1 = 'x',
@@ -176,15 +183,15 @@ anscombe_table <- gt(anscombe_data) %>%
     y3 = 'y',
     x4 = 'x',
     y4 = 'y'
-  ) %>% 
+  ) %>%
   cols_align(
     align = 'center'
-  ) %>% 
+  ) %>%
   tab_options(
     table.font.color.light = '#f8f8f2',
     table.background.color = '#282a36',
     column_labels.font.weight = 'bold'
-  ) %>% 
+  ) %>%
   tab_style(
     style = cell_text(weight = 'bold'),
     locations = cells_body(columns = 'obs')
@@ -192,7 +199,7 @@ anscombe_table <- gt(anscombe_data) %>%
   tab_style(
     style = cell_text(weight = 'bold'),
     locations = cells_column_labels(columns = everything())
-  ) %>% 
+  ) %>%
   tab_style(
     style = cell_text(color = '#e2cffc'),
     locations = list(
@@ -200,7 +207,7 @@ anscombe_table <- gt(anscombe_data) %>%
       cells_column_spanners(spanners = ends_with('1')),
       cells_column_labels(columns = ends_with('1'))
     )
-  ) %>% 
+  ) %>%
   tab_style(
     style = cell_text(color = '#f1fa8c'),
     locations = list(
@@ -208,7 +215,7 @@ anscombe_table <- gt(anscombe_data) %>%
       cells_column_spanners(spanners = ends_with('2')),
       cells_column_labels(columns = ends_with('2'))
     )
-  ) %>% 
+  ) %>%
   tab_style(
     style = cell_text(color = '#ff79c6'),
     locations = list(
@@ -216,7 +223,7 @@ anscombe_table <- gt(anscombe_data) %>%
       cells_column_spanners(spanners = ends_with('3')),
       cells_column_labels(columns = ends_with('3'))
     )
-  ) %>% 
+  ) %>%
   tab_style(
     style = cell_text(color = '#50fa7b'),
     locations = list(
@@ -225,17 +232,18 @@ anscombe_table <- gt(anscombe_data) %>%
       cells_column_labels(columns = ends_with('4'))
     )
   )
-  
+
 # anscombe_table
 
-anscombe_tidy <- anscombe %>% 
+anscombe_tidy <- anscombe %>%
   pivot_longer(
     everything(),
     names_to = c('.value', 'Set'),
-    names_pattern = '(.)(.)')
+    names_pattern = '(.)(.)'
+  )
 
-anscombe_summary <- anscombe_tidy %>% 
-  group_by(Set) %>% 
+anscombe_summary <- anscombe_tidy %>%
+  group_by(Set) %>%
   summarize(
     x_mean = mean(x),
     x_var = var(x),
@@ -244,23 +252,25 @@ anscombe_summary <- anscombe_tidy %>%
     y_var = var(y),
     y_sd = sd(y),
     corr = cor(x, y),
-    r_sq = summary(lm(y~x))$r.squared
+    r_sq = summary(lm(y ~ x))$r.squared
   )
 
-anscombe_sumtable <- gt(anscombe_summary) %>% 
+anscombe_sumtable <- gt(anscombe_summary) %>%
   tab_header(
     title = 'Summary Statistics'
   ) %>%
   tab_spanner(
-    label = 'x', columns = starts_with('x')
-  ) %>% 
+    label = 'x',
+    columns = starts_with('x')
+  ) %>%
   tab_spanner(
-    label = 'y', columns = starts_with('y')
-  ) %>% 
+    label = 'y',
+    columns = starts_with('y')
+  ) %>%
   fmt_number(
     columns = c(2:9),
     decimals = 2
-  ) %>% 
+  ) %>%
   cols_label(
     x_mean = 'Mean',
     x_var = 'Variance',
@@ -270,16 +280,16 @@ anscombe_sumtable <- gt(anscombe_summary) %>%
     y_sd = 'SD',
     corr = 'Correlation',
     r_sq = 'R\u00b2'
-  ) %>% 
+  ) %>%
   cols_align(
     align = 'center'
-  ) %>% 
+  ) %>%
   tab_options(
     table.font.color.light = '#f8f8f2',
     table.background.color = '#282a36',
     column_labels.font.weight = 'bold',
     table.margin.left = px(50)
-  ) %>% 
+  ) %>%
   tab_style(
     style = cell_text(weight = 'bold'),
     locations = cells_body(columns = 'Set')
@@ -303,7 +313,7 @@ anscombe_sumtable <- gt(anscombe_summary) %>%
   tab_style(
     style = cell_text(color = '#50fa7b'),
     locations = cells_body(columns = 'Set', rows = Set == 4)
-  ) %>% 
+  ) %>%
   tab_style(
     style = cell_text(color = '#ffb86c'),
     locations = list(
@@ -311,7 +321,7 @@ anscombe_sumtable <- gt(anscombe_summary) %>%
       cells_column_spanners(spanners = starts_with('x')),
       cells_column_labels(columns = starts_with('x'))
     )
-  ) %>% 
+  ) %>%
   tab_style(
     style = cell_text(color = '#8be9fd'),
     locations = list(
@@ -320,7 +330,7 @@ anscombe_sumtable <- gt(anscombe_summary) %>%
       cells_column_labels(columns = starts_with('y'))
     )
   )
-  
+
 # anscombe_sumtable
 
 anscombe_grp <- gt_two_column_layout(list(anscombe_table, anscombe_sumtable))
@@ -334,12 +344,16 @@ anscombe_grp
 
 ## Anscombe's Quartet
 ```{r anscombe-ggplot}
+#| echo: false
+#| include: false
+
 anscombe_plt <- ggplot(anscombe_tidy, aes(x = x, y = y, color = Set)) +
   geom_point(size = 3) +
   scale_color_manual(
-    values = c('#e2cffc', '#f1fa8c', '#ff79c6', '#50fa7b')) +
+    values = c('#e2cffc', '#f1fa8c', '#ff79c6', '#50fa7b')
+  ) +
   geom_smooth(method = 'lm', se = FALSE, color = '#d33682', formula = y ~ x) +
-  facet_wrap(~ Set, labeller = labeller(.default = ~ paste('Set',.x))) +
+  facet_wrap(~Set, labeller = labeller(.default = ~ paste('Set', .x))) +
   theme_minimal() +
   theme(
     plot.background = element_rect(fill = '#282a36', color = NA),
@@ -350,12 +364,20 @@ anscombe_plt <- ggplot(anscombe_tidy, aes(x = x, y = y, color = Set)) +
     panel.grid = element_line(color = '#6272a4'),
     legend.position = 'none'
   )
+
+ggsave(
+  filename = 'quartet.png',
+  plot = anscombe_plt,
+  bg = NULL,
+  width = 6,
+  height = 4,
+  units = 'in',
+  dpi = 300
+)
 ```
 
 ::: {.r-stack}
-```{r anscombe-plot}
-anscombe_plt
-```
+![](./quartet.png){fig-align="center" width=80%}
 :::
 
 ## Perceptual Hierarchy
@@ -368,6 +390,292 @@ anscombe_plt
 
 ::: {style='text-align: center;'}
 ![Some common preattentive attributes (Source: [Tableau Blueprint](https://help.tableau.com/current/blueprint/en-us/bp_why_visual_analytics.htm))](./preattentive_attribs.png){fig-align="center" width=80%}
+:::
+
+<!-- ## Preattentive Processing -->
+
+```{r preattentive}
+set.seed(1217)
+preattentive <- matrix(
+  sample(1:100, 81, replace = TRUE),
+  nrow = 9
+) %>%
+  as.data.frame()
+
+top_5_values <- preattentive %>%
+  unlist() %>%
+  sort(decreasing = TRUE) %>%
+  head(5)
+
+top_5_threshold <- top_5_values %>%
+  tail(1)
+
+pre_attent_tbl <- gt(preattentive) %>%
+  tab_header(
+    title = 'Find the 5 highest numbers.'
+  ) %>%
+  cols_align(
+    align = 'center',
+    columns = everything()
+  ) %>%
+  tab_options(
+    table.font.color.light = '#f8f8f2',
+    table.background.color = '#282a36',
+    column_labels.hidden = TRUE
+  )
+
+pre_attent_tbl_bold <- pre_attent_tbl %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V1, rows = V1 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V2, rows = V2 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V3, rows = V3 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V4, rows = V4 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V5, rows = V5 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V6, rows = V6 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V7, rows = V7 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V8, rows = V8 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder'),
+    locations = cells_body(columns = V9, rows = V9 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V1, rows = V1 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V2, rows = V2 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V3, rows = V3 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V4, rows = V4 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V5, rows = V5 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V6, rows = V6 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V7, rows = V7 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V8, rows = V8 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter'),
+    locations = cells_body(columns = V9, rows = V9 < top_5_threshold)
+  )
+
+pre_attent_tbl_color <- pre_attent_tbl %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V1, rows = V1 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V2, rows = V2 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V3, rows = V3 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V4, rows = V4 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V5, rows = V5 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V6, rows = V6 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V7, rows = V7 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V8, rows = V8 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b'),
+    locations = cells_body(columns = V9, rows = V9 >= top_5_threshold)
+  )
+
+pre_attent_tbl_fade <- pre_attent_tbl %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V1, rows = V1 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V2, rows = V2 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V3, rows = V3 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V4, rows = V4 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V5, rows = V5 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V6, rows = V6 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V7, rows = V7 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V8, rows = V8 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V9, rows = V9 < top_5_threshold)
+  )
+
+pre_attent_tbl_all <- pre_attent_tbl %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V1, rows = V1 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V2, rows = V2 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V3, rows = V3 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V4, rows = V4 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V5, rows = V5 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V6, rows = V6 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V7, rows = V7 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V8, rows = V8 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'bolder', color = '#50fa7b'),
+    locations = cells_body(columns = V9, rows = V9 >= top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V1, rows = V1 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V2, rows = V2 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V3, rows = V3 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V4, rows = V4 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V5, rows = V5 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V6, rows = V6 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V7, rows = V7 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V8, rows = V8 < top_5_threshold)
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'lighter', color = 'rgba(248, 248, 242, 0.3)'),
+    locations = cells_body(columns = V9, rows = V9 < top_5_threshold)
+  )
+```
+
+## Preattentive Processing
+
+::: {.panel-tabset}
+### Normal 
+```{r pre-att}
+pre_attent_tbl
+```
+
+### Weight
+```{r pre-att-wt}
+pre_attent_tbl_bold
+```
+
+### Color
+```{r pre-att-col}
+pre_attent_tbl_color
+```
+
+### Saturation
+```{r pre-att-sat}
+pre_attent_tbl_fade
+```
+
+### All
+```{r pre-att-all}
+pre_attent_tbl_all
+```
 :::
 
 ## Gestalt Principles of Visual Perception
@@ -421,36 +729,62 @@ Our brains tend to group objects based on some of the following criteria:
 
 ### Proximity
 ```{r proximity}
+#| echo: false
+#| include: false
+
 set.seed(1217)
 
 clust_A <- data.frame(
   x = rnorm(200, mean = 2, sd = 0.3),
   y = rnorm(200, mean = 2, sd = 0.3),
-  group = 'A')
+  group = 'A'
+)
 
 clust_B <- data.frame(
   x = rnorm(500, mean = 4, sd = 0.5),
   y = rnorm(500, mean = 4, sd = 0.5),
-  group = 'B')
+  group = 'B'
+)
 
 data <- rbind(clust_A, clust_B)
 
-ggplot(data, aes(x = x, y = y)) +
+prox_plot <- ggplot(data, aes(x = x, y = y)) +
   geom_point(color = '#ff79c6', alpha = 0.5, size = 3) +
-  labs(title = 'Objects close to one another tend to be perceived as a group.') +
+  labs(
+    title = 'Objects close to one another tend to be perceived as a group.'
+  ) +
   theme_void() +
   theme(
     plot.background = element_rect(fill = '#282a36', color = NA),
     panel.background = element_rect(fill = '#282a36', color = NA),
     plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold')
   )
+
+# ggsave(
+#   filename = 'prox_plot.png',
+#   plot = prox_plot,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+```
+
+```{r prox-plot}
+prox_plot
 ```
 
 ### Similarity
 ```{r similarity}
-ggplot(data, aes(x = x, y = y, color = group)) +
+#| echo: false
+#| include: false
+
+sim_plot <- ggplot(data, aes(x = x, y = y, color = group)) +
   geom_point(alpha = 0.5, size = 3) +
-  labs(title = 'Objects sharing similar attributes like color tend to be perceived as a group.') +
+  labs(
+    title = 'Objects sharing similar attributes like color tend to be perceived as a group.'
+  ) +
   scale_color_manual(values = c('#ffb86c', '#8be9fd')) +
   theme_void() +
   theme(
@@ -459,14 +793,33 @@ ggplot(data, aes(x = x, y = y, color = group)) +
     plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'),
     legend.position = 'none'
   )
+
+# ggsave(
+#   filename = 'sim_plot.png',
+#   plot = sim_plot,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+```
+
+```{r sim-plot}
+sim_plot
 ```
 
 ### Enclosure
 ```{r enclosure}
+#| echo: false
+#| include: false
+
 p_load(ggforce)
-ggplot(data, aes(x = x, y = y, color = group)) +
+enclose_plot <- ggplot(data, aes(x = x, y = y, color = group)) +
   geom_point(alpha = 0.5, size = 3) +
-  labs(title = 'Objects enclosed by a boundary tend to be perceived as a group.') +
+  labs(
+    title = 'Objects enclosed by a boundary tend to be perceived as a group.'
+  ) +
   geom_mark_ellipse(aes(color = group)) +
   scale_color_manual(values = c('#ffb86c', '#8be9fd')) +
   theme_void() +
@@ -476,12 +829,29 @@ ggplot(data, aes(x = x, y = y, color = group)) +
     plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold'),
     legend.position = 'none'
   )
+
+# ggsave(
+#   filename = 'enclose_plot.png',
+#   plot = enclose_plot,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+```
+
+```{r enclose-plot}
+enclose_plot
 ```
 
 ### Closure
 ```{r closure}
+#| echo: false
+#| include: false
+
 set.seed(1217)
-close_data_missing <- data.frame(x = c(1:30)) %>% 
+close_data_missing <- data.frame(x = c(1:30)) %>%
   mutate(
     y = ifelse(
       x %in% c(20:25),
@@ -490,12 +860,12 @@ close_data_missing <- data.frame(x = c(1:30)) %>%
     )
   )
 
-close_data_expected <- close_data_missing %>% 
+close_data_expected <- close_data_missing %>%
   filter(
     x == 19 | x == 26
   )
 
-close_data_actual <- close_data_missing %>% 
+close_data_actual <- close_data_missing %>%
   mutate(
     y = ifelse(
       x == 19 | x == 26,
@@ -508,10 +878,13 @@ close_data_actual <- close_data_missing %>%
     )
   )
 
-p1 <- ggplot(close_data_missing, aes(x = x, y = y)) +
+close_p1 <- ggplot(close_data_missing, aes(x = x, y = y)) +
   geom_line(linewidth = 1, color = '#ffb86c') +
-  labs(title = 'Our brains tend to fill in the gaps between objects, completing suggested patterns.') +
-  ylim(-1,8) +
+  labs(
+    title = 'Our brains tend to fill in the gaps between objects, completing suggested patterns.',
+    subtitle = ''
+  ) +
+  ylim(-1, 8) +
   theme_void() +
   theme(
     plot.background = element_rect(fill = '#282a36', color = NA),
@@ -519,45 +892,96 @@ p1 <- ggplot(close_data_missing, aes(x = x, y = y)) +
     plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold')
   )
 
-p2 <- p1 +
-  geom_line(data = close_data_expected, linewidth = 1, linetype = 'dashed', color = '#8be9fd')
+close_p2 <- close_p1 +
+  geom_line(
+    data = close_data_expected,
+    linewidth = 1,
+    linetype = 'dashed',
+    color = '#8be9fd'
+  ) +
+  labs(subtitle = '')
 
-p3 <- p2 +
-  geom_line(data = close_data_actual, linewidth = 1, color = '#ffb86c', alpha = 0.5) +
+close_p3 <- close_p2 +
+  geom_line(
+    data = close_data_actual,
+    linewidth = 1,
+    color = '#ffb86c',
+    alpha = 0.5
+  ) +
   labs(subtitle = 'But sometimes, our brains are wrong!') +
   theme(
-    plot.subtitle = element_text(color = '#f8f8f2', hjust = 0.5, face = 'italic', size = 12)
+    plot.subtitle = element_text(
+      color = '#f8f8f2',
+      hjust = 0.5,
+      face = 'italic',
+      size = 12
+    )
   )
+
+# ggsave(
+#   filename = 'close_p1.png',
+#   plot = close_p1,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+
+# ggsave(
+#   filename = 'close_p2.png',
+#   plot = close_p2,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+
+# ggsave(
+#   filename = 'close_p3.png',
+#   plot = close_p3,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
 ```
 
 ::: {.r-stack}
-```{r closure-plot-1}
-p1
+```{r close-plot-1}
+close_p1
 ```
 
 ::: {.fragment}
-```{r closure-plot-2}
-p2
+```{r close-plot-2}
+close_p2
 ```
 :::
 
 ::: {.fragment}
-```{r closure-plot-3}
-p3
+```{r close-plot-3}
+close_p3
 ```
 :::
 :::
 
 ### Continuity
 ```{r continuity}
+#| echo: false
+#| include: false
+
 cont_data <- data.frame(
   x = c('A', 'B', 'C', 'D', 'E', 'F', 'G'),
   y = c(100, 150, 90, 180, 200, 70, 120)
 )
 
-p1 <- ggplot(cont_data, aes(x = x, y = y))+
+cont_p1 <- ggplot(cont_data, aes(x = x, y = y)) +
   geom_bar(stat = 'identity', fill = '#ffb86c') +
-  labs(title = 'Our eyes more readily perceive smooth and continuous paths, lines, and curves as connected forms.') +
+  labs(
+    title = 'Our eyes more readily perceive smooth and continuous paths, lines, and curves as connected forms.'
+  ) +
   theme_void() +
   theme(
     plot.background = element_rect(fill = '#282a36', color = NA),
@@ -565,15 +989,37 @@ p1 <- ggplot(cont_data, aes(x = x, y = y))+
     plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold')
   )
 
-p2 <- ggplot(cont_data, aes(x = reorder(x, -y), y = y))+
+cont_p2 <- ggplot(cont_data, aes(x = reorder(x, -y), y = y)) +
   geom_bar(stat = 'identity', fill = '#8be9fd') +
-  labs(title = 'Our eyes more readily perceive smooth and continuous paths, lines, and curves as connected forms.') +
+  labs(
+    title = 'Our eyes more readily perceive smooth and continuous paths, lines, and curves as connected forms.'
+  ) +
   theme_void() +
   theme(
     plot.background = element_rect(fill = '#282a36', color = NA),
     panel.background = element_rect(fill = '#282a36', color = NA),
     plot.title = element_text(color = '#f8f8f2', hjust = 0.5, face = 'bold')
   )
+
+# ggsave(
+#   filename = 'cont_p1.png',
+#   plot = cont_p1,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+
+# ggsave(
+#   filename = 'cont_p2.png',
+#   plot = cont_p2,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
 
 # (p1 | p2) +
 #   plot_annotation(
@@ -586,34 +1032,39 @@ p2 <- ggplot(cont_data, aes(x = reorder(x, -y), y = y))+
 ```
 
 ::: {.r-stack}
-```{r continuity-plot-1}
-p1
+```{r cont-plot-1}
+cont_p1
 ```
 
 ::: {.fragment}
-```{r continuity-plot-2}
-p2
+```{r cont-plot-2}
+cont_p2
 ```
 :::
 :::
 
 ### Connection
 ```{r connection}
+#| echo: false
+#| include: false
+
 set.seed(1217)
 connect_data <- data.frame(
   x = rep(1:50, 2),
-  group = rep(c('A', 'B'), each = 50)) %>% 
-    mutate(
-      y = ifelse(
-        group == 'A',
-        rnorm(100, mean = 4, sd = 1),
-        rnorm(100, mean = 2, sd = 1))
+  group = rep(c('A', 'B'), each = 50)
+) %>%
+  mutate(
+    y = ifelse(
+      group == 'A',
+      rnorm(100, mean = 4, sd = 1),
+      rnorm(100, mean = 2, sd = 1)
     )
+  )
 
-p1 <- ggplot(connect_data, aes(x = x, y = y)) +
+conn_p1 <- ggplot(connect_data, aes(x = x, y = y)) +
   geom_point(size = 3, color = '#ff79c6') +
   labs(title = 'Connected objects tend to be perceived as a group.') +
-  ylim(-2,10) +
+  ylim(-2, 10) +
   theme_void() +
   theme(
     plot.background = element_rect(fill = '#282a36', color = NA),
@@ -622,11 +1073,11 @@ p1 <- ggplot(connect_data, aes(x = x, y = y)) +
     legend.position = 'none'
   )
 
-p2 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
+conn_p2 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
   geom_point(size = 3) +
   labs(title = 'Connected objects tend to be perceived as a group.') +
   scale_color_manual(values = c('#ffb86c', '#8be9fd')) +
-  ylim(-2,10) +
+  ylim(-2, 10) +
   theme_void() +
   theme(
     plot.background = element_rect(fill = '#282a36', color = NA),
@@ -635,12 +1086,12 @@ p2 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
     legend.position = 'none'
   )
 
-p3 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
+conn_p3 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
   geom_point(size = 3) +
   geom_line(linewidth = 1) +
   labs(title = 'Connected objects tend to be perceived as a group.') +
   scale_color_manual(values = c('#ffb86c', '#8be9fd')) +
-  ylim(-2,10) +
+  ylim(-2, 10) +
   theme_void() +
   theme(
     plot.background = element_rect(fill = '#282a36', color = NA),
@@ -649,6 +1100,35 @@ p3 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
     legend.position = 'none'
   )
 
+# ggsave(
+#   filename = 'conn_p1.png',
+#   plot = conn_p1,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+
+# ggsave(
+#   filename = 'conn_p2.png',
+#   plot = conn_p2,
+#   bg = NULL,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+
+# ggsave(
+#   filename = 'conn_p3.png',
+#   plot = conn_p3,
+#   # width = 8,
+#   # height = 6,
+#   # units = 'in',
+#   dpi = 300
+# )
+#
 # (p1 / p2 / p3) +
 #   plot_annotation(
 #     title = 'Connected objects tend to be perceived as a group.',
@@ -660,25 +1140,24 @@ p3 <- ggplot(connect_data, aes(x = x, y = y, color = group)) +
 ```
 
 ::: {.r-stack}
-```{r connection-plot-1}
-p1
+```{r conn-plot-1}
+conn_p1
 ```
 
 ::: {.fragment}
-```{r connection-plot-2}
-p2
+```{r conn-plot-2}
+conn_p2
 ```
 :::
 
 ::: {.fragment}
-```{r connection-plot-3}
-p3
+```{r conn-plot-3}
+conn_p3
 ```
 :::
 :::
 
 :::
-
 
 ## Data Viz Best Practices
 
@@ -704,6 +1183,18 @@ In *Better Data Visualizations* [-@schwabish-2021], Jonathan Schwabish offers 5 
 
 # Visualizing Your Data
 
+## Types of Visualizations
+
+::: {style="text-align: center;"}
+!["The Graphic Continuum" designed by [Jonathan Schwabish](https://policyviz.com/2014/09/09/graphic-continuum/?srsltid=AfmBOoosT8beOhKqzHkLr6f2dk5V_N1pv7-JFTfqVxRxPY3gabXPTWoz) and [Severino Ribecca](https://www.severinoribecca.one/portfolio-item/the-graphic-continuum/) (Source: [Etsy](https://www.etsy.com/listing/4315529800/bring-data-to-liferight-on-your-desk?sr_prefetch=1&pf_from=shop_home&ref=shop_home_active_2&crt=1&dd=1&logging_key=a2790c42fc31a007619590c3f275a201ab08be31%3A4315529800))](./graphic_continuum_p1.png){fig-align="center" width=75% .lightbox}
+:::
+
+## Types of Visualizations
+
+::: {style="text-align: center;"}
+!["The Graphic Continuum" designed by [Jonathan Schwabish](https://policyviz.com/2014/09/09/graphic-continuum/?srsltid=AfmBOoosT8beOhKqzHkLr6f2dk5V_N1pv7-JFTfqVxRxPY3gabXPTWoz) and [Severino Ribecca](https://www.severinoribecca.one/portfolio-item/the-graphic-continuum/) (Source: [Etsy](https://www.etsy.com/listing/4315529800/bring-data-to-liferight-on-your-desk?sr_prefetch=1&pf_from=shop_home&ref=shop_home_active_2&crt=1&dd=1&logging_key=a2790c42fc31a007619590c3f275a201ab08be31%3A4315529800))](./graphic_continuum_p2.png){fig-align="center" width=75% .lightbox}
+:::
+
 ## Our Sample Dataset
 
 ::: {.fragment}
@@ -716,6 +1207,8 @@ In *Better Data Visualizations* [-@schwabish-2021], Jonathan Schwabish offers 5 
 
 <u>Why this dataset?</u>
 
+:::: {.columns}
+::: {.column width=50%}
 ::: {.fragment}
 - Not real donors
   - No real PII being shared
@@ -726,15 +1219,52 @@ In *Better Data Visualizations* [-@schwabish-2021], Jonathan Schwabish offers 5 
   - 50,000 donor records
   - 484,954 giving history records
 :::
+:::
 
+::: {.column width=50%}
 ::: {.incremental}
 - One of very few advancement-specific open-source synthetic datasets
 - Good for practicing machine learning (ML) models with advancement data
+- Contains data fields most development professionals would recognize
 :::
+:::
+::::
 
-## Types of Visualizations
+```{r import-data}
+#| echo: false
+#| include: false
 
+p_load(janitor)
 
+## Read in datasets from GitHub
+donors <- read_csv(
+  'https://raw.githubusercontent.com/dbrown86/LMUCapstoneProject/refs/heads/main/data/synthetic_donor_dataset/donors.csv'
+) %>%
+  clean_names()
+
+# relationships <- read_csv(
+#     'https://raw.githubusercontent.com/dbrown86/LMUCapstoneProject/refs/heads/main/data/synthetic_donor_dataset/relationships.csv'
+# ) %>%
+#     clean_names()
+
+giving_history <- read_csv(
+  'https://raw.githubusercontent.com/dbrown86/LMUCapstoneProject/refs/heads/main/data/synthetic_donor_dataset/giving_history.csv'
+) %>%
+  clean_names()
+
+# enhanced_fields <- read_csv(
+#     'https://raw.githubusercontent.com/dbrown86/LMUCapstoneProject/refs/heads/main/data/synthetic_donor_dataset/enhanced_fields.csv'
+# ) %>%
+#     clean_names()
+```
+
+## Step-by-Step Example
+
+UNFINISHED SECTION
+
+High-level walkthrough using donor dataset for 2 types of charts: bar and line
+
+Demonstrate Schwabish's 5 guidelines to generate two simple, polished visuals
 
 # Case Studies
 
@@ -786,7 +1316,7 @@ Can you guess which graph Purdue Pharma used in their prescription inserts from 
 :::
 :::
 
-## The Curious Conundrum of the Baltic Giantess[(?)]{.fragment}
+## The Curious Conundrum of the Baltic Giantess(?)
 
 . . .
 
@@ -798,17 +1328,19 @@ Can you guess which graph Purdue Pharma used in their prescription inserts from 
 :::
 
 ::: {.column width=50%}
-[Okay, what's, uh...]{.fragment} [*unpolished* about this?]{.fragment .fade-in}
+[What's...*unpolished* about this?]{.fragment}
 
 ::: {.fragment}
-- Vertical axis doesn't start at 0
+- Scale is misleading
+  - Vertical axis doesn't start at 0
 - Column shapes are distracting
-- Overlap creates visual clutter
-- Color doesn't signify anything
+  - Overlap creates visual clutter
+- Value of color is unclear
+  - Hue/saturation appears random
 :::
 
-::: {style="text-align: center; font-size: 120%;"}
-*[Let's talk about audience.]{.fragment}*
+::: {style="text-align: center; font-size: 150%;"}
+***[Let's talk about audience.]{.fragment .highlight-pink}***
 :::
 :::
 ::::
@@ -836,7 +1368,7 @@ Can you guess which graph Purdue Pharma used in their prescription inserts from 
 
 . . .
 
-My answer?
+Well,
 
 ::: {style="text-align:center;"}
 [AI can do a lot of things for you.]{.fragment .highlight-orange}*[..with varying degrees of success and/or quality.]{.fragment .highlight-orange}*
@@ -853,9 +1385,9 @@ My answer?
 
 ## Resources
 
-## Let's Keep in Touch!
-If you have any questions for me, feedback about my presentation, or requests for additional resources---including this slide deck---please reach out!
+Placeholder slide for resources 
 
+## Let's Keep in Touch!
 ```{r qr-contact}
 #| echo: false
 #| include: false
@@ -872,9 +1404,11 @@ contact_card <- qr_vcard(
 
 png(filename = 'KM_contact_card.png', bg = 'transparent')
 par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0), xaxs = 'i', yaxs = 'i')
-plot(contact_card, col = c('#282a36','#f8f8f2'), main = NA)
+plot(contact_card, col = c('#282a36', '#f8f8f2'), main = NA)
 dev.off()
 ```
+
+If you have any questions for me, feedback about my presentation, or requests for additional resources---including this slide deck---please reach out!
 
 :::: {.columns}
 ::: {.column width='40%'}
