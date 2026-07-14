@@ -139,7 +139,7 @@ Let's start with an essential example:
 :::
 
 ## Anscombe's Quartet
-```{r anscombe}
+```{r anscombe-obs-tables}
 #| echo: false
 #| include: false
 
@@ -189,52 +189,147 @@ anscombe_table <- gt(anscombe_data) %>%
   ) %>%
   tab_options(
     table.font.color.light = '#f8f8f2',
-    table.background.color = '#282a36',
-    column_labels.font.weight = 'bold'
+    table.background.color = '#282a36'
   ) %>%
   tab_style(
     style = cell_text(weight = 'bold'),
-    locations = cells_body(columns = 'obs')
-  ) %>%
-  tab_style(
-    style = cell_text(weight = 'bold'),
-    locations = cells_column_labels(columns = everything())
-  ) %>%
-  tab_style(
-    style = cell_text(color = '#e2cffc'),
     locations = list(
-      cells_body(columns = ends_with('1')),
-      cells_column_spanners(spanners = ends_with('1')),
-      cells_column_labels(columns = ends_with('1'))
+      cells_body(columns = 'obs'),
+      cells_column_labels(columns = 'obs')
     )
   ) %>%
   tab_style(
-    style = cell_text(color = '#f1fa8c'),
+    style = cell_text(color = '#e2cffc', weight = 'bold'),
+    locations = cells_column_spanners(spanners = ends_with('1'))
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#f1fa8c', weight = 'bold'),
+    locations = cells_column_spanners(spanners = ends_with('2'))
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#ff79c6', weight = 'bold'),
+    locations = cells_column_spanners(spanners = ends_with('3'))
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#50fa7b', weight = 'bold'),
+    locations = cells_column_spanners(spanners = ends_with('4'))
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#ffb86c'),
+    locations = cells_column_labels(columns = starts_with('x'))
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#8be9fd'),
+    locations = cells_column_labels(columns = starts_with('y'))
+  )
+
+anscombe_table_x1 <- anscombe_table %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'lighter'),
     locations = list(
-      cells_body(columns = ends_with('2')),
-      cells_column_spanners(spanners = ends_with('2')),
-      cells_column_labels(columns = ends_with('2'))
+      cells_body(columns = x4),
+      cells_body(columns = starts_with('y')),
+      cells_column_labels(columns = x4),
+      cells_column_labels(columns = starts_with('y')),
+      cells_column_spanners(spanners = 'Set 4')
     )
   ) %>%
   tab_style(
-    style = cell_text(color = '#ff79c6'),
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'normal'),
     locations = list(
-      cells_body(columns = ends_with('3')),
-      cells_column_spanners(spanners = ends_with('3')),
-      cells_column_labels(columns = ends_with('3'))
+      cells_body(columns = 'obs'),
+      cells_column_labels(columns = 'obs')
+    )
+  ) %>% 
+  tab_style(
+    style = cell_text(color = '#ffb86c', weight = 'bold'),
+    locations = cells_body(columns = c(x1, x2, x3))
+  )
+
+anscombe_table_x2 <- anscombe_table %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'lighter'),
+    locations = list(
+      cells_body(columns = c(x1, x2, x3)),
+      cells_body(columns = starts_with('y')),
+      cells_column_labels(columns = c(x1, x2, x3)),
+      cells_column_labels(columns = starts_with('y')),
+      cells_column_spanners(spanners = c('Set 1', 'Set 2', 'Set 3'))
     )
   ) %>%
   tab_style(
-    style = cell_text(color = '#50fa7b'),
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'normal'),
     locations = list(
-      cells_body(columns = ends_with('4')),
-      cells_column_spanners(spanners = ends_with('4')),
-      cells_column_labels(columns = ends_with('4'))
+      cells_body(columns = 'obs'),
+      cells_column_labels(columns = 'obs')
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#d33682', weight = 'normal'),
+    locations =
+      cells_body(columns = 'obs', rows = 8)
+  ) %>% 
+  tab_style(
+    style = cell_text(color = '#ffb86c', weight = 'bold'),
+    locations = cells_body(columns = x4)
+  ) %>% 
+  tab_style(
+    style = cell_text(color = '#d33682', weight = 'bold'),
+    locations = cells_body(columns = x4, rows = x4 == 19)
+  )
+
+anscombe_table_y <- anscombe_table %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'lighter'),
+    locations = list(
+      cells_body(columns = everything()),
+      cells_column_labels(columns = everything()),
+      cells_column_spanners(spanners = c('Set 1', 'Set 2'))
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'normal'),
+    locations = list(
+      cells_body(columns = 'obs'),
+      cells_column_labels(columns = 'obs')
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#d33682', weight = 'normal'),
+    locations =
+      cells_body(columns = 'obs', rows = c(3,8))
+  ) %>% 
+  tab_style(
+    style = cell_text(color = '#8be9fd'),
+    locations = cells_column_labels(columns = c(y3, y4))
+  ) %>% 
+  tab_style(
+    style = cell_text(color = '#d33682', weight = 'bold'),
+    locations = list(
+      cells_body(columns = y3, rows = y3 == max(y3)),
+      cells_body(columns = y4, rows = y4 == max(y4))
     )
   )
 
-# anscombe_table
+anscombe_table_gray <- anscombe_table %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'lighter'),
+    locations = list(
+      cells_body(columns = everything()),
+      cells_column_labels(columns = everything()),
+      cells_column_spanners(spanners = everything())
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'normal'),
+    locations = list(
+      cells_body(columns = 'obs'),
+      cells_column_labels(columns = 'obs')
+    )
+  )
+```
 
+```{r anscombe-sum-tables}
 anscombe_tidy <- anscombe %>%
   pivot_longer(
     everything(),
@@ -287,16 +382,14 @@ anscombe_sumtable <- gt(anscombe_summary) %>%
   tab_options(
     table.font.color.light = '#f8f8f2',
     table.background.color = '#282a36',
-    column_labels.font.weight = 'bold',
     table.margin.left = px(50)
   ) %>%
   tab_style(
     style = cell_text(weight = 'bold'),
-    locations = cells_body(columns = 'Set')
-  ) %>%
-  tab_style(
-    style = cell_text(weight = 'bold'),
-    locations = cells_column_labels(columns = everything())
+    locations = list(
+      cells_body(columns = 'Set'),
+      cells_column_labels(columns = 'Set')
+    )
   ) %>%
   tab_style(
     style = cell_text(color = '#e2cffc'),
@@ -315,31 +408,101 @@ anscombe_sumtable <- gt(anscombe_summary) %>%
     locations = cells_body(columns = 'Set', rows = Set == 4)
   ) %>%
   tab_style(
-    style = cell_text(color = '#ffb86c'),
+    style = cell_text(color = '#ffb86c', weight = 'bold'),
+    locations = cells_column_spanners(spanners = starts_with('x'))
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#8be9fd', weight = 'bold'),
+    locations = cells_column_spanners(spanners = starts_with('y'))
+  )
+
+anscombe_sumtable_gray <- anscombe_sumtable %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'lighter'),
     locations = list(
-      cells_body(columns = starts_with('x')),
-      cells_column_spanners(spanners = starts_with('x')),
-      cells_column_labels(columns = starts_with('x'))
+      cells_body(columns = everything()),
+      cells_column_labels(columns = everything()),
+      cells_column_spanners(spanners = everything())
     )
   ) %>%
   tab_style(
-    style = cell_text(color = '#8be9fd'),
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'normal'),
     locations = list(
-      cells_body(columns = starts_with('y')),
-      cells_column_spanners(spanners = starts_with('y')),
-      cells_column_labels(columns = starts_with('y'))
+      cells_body(columns = 'Set'),
+      cells_column_labels(columns = 'Set')
     )
   )
 
-# anscombe_sumtable
+anscombe_sumtable_highlights <- anscombe_sumtable %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'lighter'),
+    locations = list(
+      cells_body(columns = c(2:9)),
+      cells_column_labels(columns = everything())
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = 'rgba(248, 248, 242, 0.3)', weight = 'normal'),
+    locations = list(
+      cells_column_labels(columns = 'Set')
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(weight = 'normal'),
+    locations = cells_body(columns = 'Set')
+  ) %>%
+  tab_style(
+    style = cell_text(color = '#ffb86c', weight = 'bold'),
+    locations = cells_body(columns = starts_with('x'))
+  ) %>% 
+  tab_style(
+    style = cell_text(color = '#8be9fd', weight = 'bold'),
+    locations = cells_body(columns = starts_with('y'))
+  ) %>% 
+  tab_style(
+    style = cell_text(color = '#f8f8f2', weight = 'bold'),
+    locations = cells_body(columns = c(corr, r_sq))
+  )
+```
 
+```{r anscombe-groups}
 anscombe_grp <- gt_two_column_layout(list(anscombe_table, anscombe_sumtable))
+anscombe_grp_x1 <- gt_two_column_layout(list(anscombe_table_x1, anscombe_sumtable_gray))
+anscombe_grp_x2 <- gt_two_column_layout(list(anscombe_table_x2, anscombe_sumtable_gray))
+anscombe_grp_y <- gt_two_column_layout(list(anscombe_table_y, anscombe_sumtable_gray))
+anscombe_grp_sum <- gt_two_column_layout(list(anscombe_table_gray, anscombe_sumtable_highlights))
 ```
 
 ::: {.r-stack}
-```{r anscombe-tables}
+::: {.fragment .fade-out fragment-index='0'}
+```{r anscombe-grp}
 anscombe_grp
 ```
+:::
+
+::: {.fragment .fade-in-then-out fragment-index='0'}
+```{r anscombe-grp-x1}
+anscombe_grp_x1
+```
+:::
+
+::: {.fragment .fade-in-then-out}
+```{r anscombe-grp-x2}
+anscombe_grp_x2
+```
+:::
+
+::: {.fragment .fade-in-then-out}
+```{r anscombe-grp-y}
+anscombe_grp_y
+```
+:::
+
+::: {.fragment .fade-in}
+```{r anscombe-grp-sum}
+anscombe_grp_sum
+```
+:::
 :::
 
 ## Anscombe's Quartet
@@ -364,21 +527,11 @@ anscombe_plt <- ggplot(anscombe_tidy, aes(x = x, y = y, color = Set)) +
     panel.grid = element_line(color = '#6272a4'),
     legend.position = 'none'
   )
-
-ggsave(
-  filename = 'quartet.png',
-  plot = anscombe_plt,
-  bg = NULL,
-  width = 6,
-  height = 4,
-  units = 'in',
-  dpi = 300
-)
 ```
 
-::: {.r-stack}
-![](./quartet.png){fig-align="center" width=80%}
-:::
+```{r}
+anscombe_plt
+```
 
 ## Perceptual Hierarchy
 
@@ -1162,10 +1315,13 @@ conn_p3
 ## Data Viz Best Practices
 
 :::: {.columns}
-::: {.column width=30%}
+::: {.column width=25%}
 ::: {style='text-align: center;'}
 ![Can be accessed on [JSTOR](https://www.jstor.org/stable/10.7312/schw19310) via your institution or purchased from [Columbia University Press](https://cup.columbia.edu/book/better-data-visualizations/9780231193115/)](https://cup-us.imgix.net/covers/9780231193115.jpg?auto=format&w=350){fig-align="center"}
 :::
+:::
+
+::: {.column width=5%}
 :::
 
 ::: {.column width=70%}
@@ -1173,10 +1329,13 @@ In *Better Data Visualizations* [-@schwabish-2021], Jonathan Schwabish offers 5 
 
 ::: {.incremental}
 1. Show the data.
-2. Reduce the clutter.
-3. Integrate the graphics and text.
-4. Avoid the spaghetti chart.
-5. Start with gray.
+2. Minimize visual clutter.
+3. Integrate graphics and text.
+    i. When possible, label data directly.
+    ii. Write the title like a newspaper headline.
+    iii. Add explainers (tooltips, callout bubbles, etc.).
+4. Avoid overly complicated spaghetti charts.
+5. Start with gray before adding color.
 :::
 :::
 ::::
@@ -1270,7 +1429,7 @@ Demonstrate Schwabish's 5 guidelines to generate two simple, polished visuals
 
 ## Medication Effectiveness
 
-These two charts are based on the same data...
+These two charts are based on the same blood plasma concentration data...
 
 :::: {.columns}
 ::: {.column width=50%}
@@ -1288,9 +1447,9 @@ These two charts are based on the same data...
 
 [**What do you notice?**]{.fragment .fade-in-then-out} **[Any guesses as to which medication this is?]{.fragment .fade-in .highlight-orange}**
 
-## [Medication Effectiveness]{.fragment .strike .semi-fade-out fragment-index="1"} [Drug Addictiveness]{.fragment .fade-in fragment-index="1"}
+## [Medication Effectiveness]{.fragment .strike .semi-fade-out fragment-index="0"} [Drug Addictiveness]{.fragment .fade-in fragment-index="0"}
 
-::: {.fragment .fade-in fragment-index="1"}
+::: {.fragment .fade-in fragment-index="0"}
 :::: {.columns}
 ::: {.column width=50%}
 ![](./oxycontin_linear.jpeg){fig-align="center" width=90%}
@@ -1305,12 +1464,12 @@ These two charts are based on the same data...
 ::: {.r-stack}
 ::: {style="text-align: center;"}
 ::: {.fragment .fade-in-then-semi-out}
-Can you guess which graph Purdue Pharma used in their prescription inserts from December 1995 until August 2010?
+Can you guess which chart Purdue Pharma used in their prescription information materials from December 1995 until August 2010?
 :::
 
 ::: {.fragment}
-::: {style="font-size: 120%;"}
-***[Data matters, but how you represent it matters, too.]{.highlight-orange}***
+::: {style="font-size: 125%;"}
+***[Data matters, and how you represent it matters, too.]{.highlight-orange}***
 :::
 :::
 :::
@@ -1347,22 +1506,12 @@ Can you guess which graph Purdue Pharma used in their prescription inserts from 
 
 # Parting Thoughts
 
-## Toward Good Data Stewardship
+## Designing for your Audience
 
-::: {style="text-align: center; font-size: 120%;"}
-**[<u>Transparency fosters trust</u>.]{.fragment .highlight-orange}**
-:::
-
-::: {.incremental}
-- As data stewards, our prime directive should be to accurately and honestly represent our data.
-- Perceptive audiences *will* poke holes in visualizations that don't add up.
-- Where data comes from can feel like a black box for non-specialists---be someone that you'd want to put your faith in.
-- It's better to have the full picture than a convenient snippet.
-:::
 
 ## The Artificial Intelli-phant in the Room
 
-::: {style="text-align: center; font-size: 120%;"}
+::: {style="text-align: center; font-size: 150%;"}
 **[<u>Can't AI do all this for me</u>?]{.fragment .highlight-orange}**
 :::
 
@@ -1381,6 +1530,19 @@ Well,
   - Every marathon runner first learned how to crawl.
 - The quality of the input corresponds to the quality of the output.
   - Describing the details of your business problem and your request in a way that AI will understand is the foundation of prompt engineering.
+:::
+
+## Toward Good Data Stewardship
+
+::: {style="text-align: center; font-size: 150%;"}
+**[<u>Transparency fosters trust</u>.]{.fragment .highlight-orange}**
+:::
+
+::: {.incremental}
+- As data stewards, our prime directive should be to accurately and honestly represent our data.
+- Perceptive audiences *will* poke holes in visualizations that don't add up.
+- Where data comes from can feel like a black box for non-specialists---be someone that you'd want to put your faith in.
+- It's better to have the full picture than a convenient snippet---both strategically *and* ethically.
 :::
 
 ## Resources
