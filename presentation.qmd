@@ -15,17 +15,15 @@ format:
 #        reference-location: document
         theme: dracula_custom.scss
 bibliography: references.bib
----
-
-::: {.notes}
-- I'm part of our annual giving mass solicitations team, primarily supporting our direct mail program
-- I'm a 2-time VU alum: class of 2016 with a BA in English literature and recently class of 2026 MS in Business Analytics
+title-slide-attributes:
+  data-notes: "- I'm part of our annual giving mass solicitations team, primarily supporting our direct mail program
+- I'm a 2-time VU alumnus: class of 2016 with a BA in English literature and recently class of 2026 MS in Business Analytics
 - Welcome to the Last Byte!
 - Working with data from start to finish really can feel like preparing a complicated 7-course meal
 - Before I worked in Advancement, I was a baker and recipe developer at a vegan bakery in Philly, so I love dessert,
 - And because my favorite part of the analytics pipeline is visualization, and it really does feel like the data dessert course
-- Hence the session title!
-:::
+- Hence the session title!"
+---
 
 ```{r setup}
 #| echo: false
@@ -75,6 +73,10 @@ dev.off()
 ::::
 
 ## Session Overview
+
+::: {.notes}
+at a high level, how our brains process and then make sense of visual stimuli
+:::
 
 :::: {.columns}
 
@@ -132,6 +134,10 @@ Why not just stick to Excel sheets or tables with raw numbers?
 . . .
 
 ### Anscombe's Quartet
+
+::: {.notes}
+four datasets that have nearly identical simple descriptive statistics, yet have very different distributions and appear very different when graphed
+:::
 
 ::: {.fragment}
 :::: {.columns}
@@ -559,7 +565,7 @@ anscombe_plt <- ggplot(anscombe_tidy, aes(x = x, y = y, color = Set)) +
   )
 ```
 
-```{r}
+```{r quartet}
 anscombe_plt
 ```
 
@@ -576,6 +582,13 @@ anscombe_plt
 :::
 
 ## Perceptual Hierarchy
+
+::: {.notes}
+- though pies and donuts are delicious last bites in their own right, in terms of data viz, I just don't have much of an appetite for them
+- Angle, area, volume, and color are fine for general estimates
+  - Think donut and pie charts (angle, area under a curve)
+- But bar charts with a common axis are better! This is why we see them so often for comparison
+:::
 
 ```{r}
 pie_df <- data.frame(
@@ -656,12 +669,6 @@ percep_bar_lab
 
 :::
 
-::: {.notes}
-- Angle, area, volume, and color are fine for general estimates
-  - Think donut and pie charts (angle, area under a curve)
-- But bar charts with a common axis are better! This is why we see them so often for comparison
-:::
-
 ## Gestalt Principles of Visual Perception
 
 ::: {style='text-align: center;'}
@@ -676,7 +683,7 @@ percep_bar_lab
 - **These are principles of perception---not rules!**
   - We consider these when trying to make visualizations easier to process
 - Closure: useful to bear in mind with missing data---be intentional with how we work around gaps because our tendency to close empty space could ellide the material reality of the data
-- Continuity: can be case-by-case---if there is an important categorical order that must be maintained (e.g., campaign pillars), we may forgo this principle
+- Continuity: can be case-by-case---if there is an important categorical order that must be maintained (e.g., campaign pillars, scholarship, capital projects, faculty research), we may forgo this principle
 :::
 
 . . .
@@ -719,8 +726,12 @@ Our brains tend to group objects based on some of the following criteria:
 ::::
 
 
-
 ## Examples of Gestalt Principles
+
+::: {.notes}
+- Closure: useful to bear in mind with missing data---be intentional with how we work around gaps because our tendency to close empty space could ellide the material reality of the data
+- Continuity: can be case-by-case---if there is an important categorical order that must be maintained (e.g., campaign pillars, scholarship, capital projects, faculty research), we may forgo this principle
+:::
 
 ::: {.panel-tabset}
 
@@ -1519,13 +1530,51 @@ In *Better Data Visualizations* [-@schwabish-2021], Jon Schwabish offers 5 guide
 
 :::
 
-# Step-by-Step Example
+# Villanova Annual Giving Dashboards
 
-UNFINISHED SECTION
+## 1842 Day Hour-by-Hour Reporting
 
-High-level walkthrough using donor dataset for 2 types of charts: bar and line
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![Hourly donor count (running total).](./1842_donors.png){.lightbox}
+:::
+::: {.fragment .fade-in-then-out}
+![Dollars raised per hour.](./1842_dollars.png){.lightbox}
+:::
+::: {.fragment .fade-in}
+![Detail table of hourly dollars with YOY % change.](./1842_dollars_detail.png){width=60% .lightbox}
+:::
+:::
 
-Demonstrate Schwabish's 5 guidelines to generate two simple, polished visuals
+## Villanova Annual Giving Year-To-Date Tracker
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![YTD progress summary.](./ytd_overview.png){width=80% .lightbox}
+:::
+::: {.fragment .fade-in-then-out}
+![Donor count, all constituencies.](./ytd_donors.png){width=80% .lightbox}
+:::
+::: {.fragment .fade-in}
+![Donor count, alumni only.](./ytd_alumni.png){width=80% .lightbox}
+:::
+:::
+
+## Pope Leo Christmas Ornament Progress
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![Dollars raised from CYE Christmas ornament incentive.](./ornament_dollars.png){width=80% .lightbox}
+:::
+::: {.fragment .fade-in-then-out}
+![Count of incentivized gifts/total incentives fulfilled.](./ornament_qty.png){width=80% .lightbox}
+:::
+::: {.fragment .fade-in}
+![Christmas ornament YOY comparison.](./ornament_yoy.png){width=80% .lightbox}
+:::
+:::
+
+<!-- # Application
 
 ## Our Sample Dataset
 
@@ -1593,17 +1642,65 @@ giving_history <- read_csv(
 ## Which Areas are US Regional Donors Supporting?
 
 ```{r}
-regional_donors <- donors %>% 
-  left_join(giving_history, by = c('id'= 'donor_id')) %>% 
-  filter(last_gift != 0 & geographic_region != 'International' & !is.na(designation) & year == max(year, na.rm = TRUE)) %>% 
-  group_by(geographic_region, primary_constituent_type, designation) %>% 
-  summarize(dollars_raised = sum(gift_amount))
+#| echo: false
+#| include: false
+p_load(tidytext, scales, gghighlight)
 
-ggplot(regional_donors, aes(x = reorder(designation, -dollars_raised), y = dollars_raised)) +
+regional_donors <- donors %>%
+  left_join(giving_history, by = c('id' = 'donor_id')) %>%
+  group_by(year, id) %>%
+  mutate(med_AG = median(gift_amount)) %>%
+  ungroup() %>%
+  filter(
+    last_gift != 0 &
+      med_AG < 100000 &
+      # lifetime_giving < 100000 &
+      geographic_region %in% c('Northeast', 'Southeast') &
+      primary_constituent_type == 'Alum' &
+      !is.na(designation) &
+      between(year, 2020, 2025)
+  ) %>%
+  group_by(
+    gift_date,
+    geographic_region,
+    designation
+  ) %>%
+  mutate(
+    dollars_raised = sum(gift_amount, na.rm = TRUE),
+    donor_count = n_distinct(id)
+  ) %>%
+  ungroup()
+
+designations <- regional_donors %>%
+  ungroup() %>%
+  select(designation) %>%
+  unique()
+
+ggplot(
+  regional_donors %>%
+    group_by(designation) %>%
+    mutate(total_donors = sum(donor_count, na.rm = TRUE)) %>%
+    ungroup(),
+  aes(
+    x = reorder(designation, -total_donors),
+    y = total_donors
+  )
+) +
   geom_col()
 
-```
+ggplot(
+  regional_donors,
+  aes(x = gift_date, y = dollars_raised),
+  col = designation
+) +
+  geom_line() +
+  facet_wrap(~geographic_region)
 
+geo_sum <- regional_donors %>%
+  group_by(designation, geographic_region) %>%
+  summarize(total = sum(dollars_raised, na.rm = TRUE))
+```
+ -->
 
 # Case Studies
 
@@ -1717,50 +1814,6 @@ Can you guess which chart Purdue Pharma used in their prescription information m
 :::
 ::::
 
-# Villanova Annual Giving Dashboards
-
-## 1842 Day Hour-by-Hour Reporting
-
-::: {.r-stack}
-::: {.fragment .fade-in-then-out}
-![Hourly donor count (running total).](./1842_donors.png){.lightbox}
-:::
-::: {.fragment .fade-in-then-out}
-![Dollars raised per hour.](./1842_dollars.png){.lightbox}
-:::
-::: {.fragment .fade-in}
-![Detail table of hourly dollars with YOY % change.](./1842_dollars_detail.png){width=60% .lightbox}
-:::
-:::
-
-## Villanova Annual Giving Year-To-Date Tracker
-
-::: {.r-stack}
-::: {.fragment .fade-in-then-out}
-![YTD progress summary.](./ytd_overview.png){width=80% .lightbox}
-:::
-::: {.fragment .fade-in-then-out}
-![Donor count, all constituencies.](./ytd_donors.png){width=80% .lightbox}
-:::
-::: {.fragment .fade-in}
-![Donor count, alumni only.](./ytd_alumni.png){width=80% .lightbox}
-:::
-:::
-
-## Pope Leo Christmas Ornament Progress
-
-::: {.r-stack}
-::: {.fragment .fade-in-then-out}
-![Dollars raised from CYE Christmas ornament incentive.](./ornament_dollars.png){width=80% .lightbox}
-:::
-::: {.fragment .fade-in-then-out}
-![Count of incentivized gifts/total incentives fulfilled.](./ornament_qty.png){width=80% .lightbox}
-:::
-::: {.fragment .fade-in}
-![Christmas ornament YOY comparison.](./ornament_yoy.png){width=80% .lightbox}
-:::
-:::
-
 # Parting Thoughts
 
 ## The Artificial Intelli-phant in the Room
@@ -1805,10 +1858,6 @@ Well,
 - Where data comes from can feel like a black box for non-specialists---be someone that you'd want to put your faith in.
 - It's better to have the full picture than a convenient snippet---both strategically *and* ethically.
 :::
-
-<!-- ## Resources
-
-Placeholder slide for resources  -->
 
 ## Let's Keep in Touch!
 ```{r qr-contact}
