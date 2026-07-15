@@ -17,6 +17,16 @@ format:
 bibliography: references.bib
 ---
 
+::: {.notes}
+- I'm part of our annual giving mass solicitations team, primarily supporting our direct mail program
+- I'm a 2-time VU alum: class of 2016 with a BA in English literature and recently class of 2026 MS in Business Analytics
+- Welcome to the Last Byte!
+- Working with data from start to finish really can feel like preparing a complicated 7-course meal
+- Before I worked in Advancement, I was a baker and recipe developer at a vegan bakery in Philly, so I love dessert,
+- And because my favorite part of the analytics pipeline is visualization, and it really does feel like the data dessert course
+- Hence the session title!
+:::
+
 ```{r setup}
 #| echo: false
 #| include: false
@@ -49,6 +59,9 @@ dev.off()
 
 ## Pulse Check Results
 
+::: {.notes}
+:::
+
 :::: {.columns}
 ::: {.column width=20%}
 ::: {style='text-align: center;'}
@@ -66,19 +79,21 @@ dev.off()
 :::: {.columns}
 
 ::: {.column width='45%'}
-<u>What we *WON'T* focus on</u>
+::: {.fragment .semi-fade-out fragment-index='3'}
+<u>What we *[WON'T]{.highlight-red}* focus on</u>
 
-::: {.fragment}
+::: {.fragment fragment-index='1'}
 - Data sourcing/wrangling/mining
-  - [Extract-Transform-Load (ETL)](https://www.databricks.com/discover/etl)
-  - [Cross Industry Standard Process for Data Mining (CRISP-DM)](https://www.datascience-pm.com/crisp-dm-2/)
+  - Extract-Transform-Load ([ETL](https://www.databricks.com/discover/etl))
+  - Cross Industry Standard Process for Data Mining ([CRISP-DM](https://www.datascience-pm.com/crisp-dm-2/))
 :::
 
-::: {.fragment}
+::: {.fragment fragment-index='2'}
 - Programming or software tutorials
   - [R](https://rstudio-education.github.io/hopr/) and [Python](https://nostarch.com/python-crash-course-3rd-edition)
-  - [Power Query M formula language](https://learn.microsoft.com/en-us/powerquery-m/)
-  - [Data Analysis Expressions (DAX)](https://learn.microsoft.com/en-us/dax/)
+  - [Power Query M](https://learn.microsoft.com/en-us/powerquery-m/) formula language
+  - Data Analysis Expressions ([DAX](https://learn.microsoft.com/en-us/dax/))
+:::
 :::
 :::
 
@@ -86,21 +101,21 @@ dev.off()
 :::
 
 ::: {.column width='45%'}
-<u>What we *WILL* focus on</u>
+<u>What we *[WILL]{.highlight-green}* focus on</u>
 
-::: {.fragment}
+::: {.fragment fragment-index='3'}
 - Data viz theory
   - Perceptual rankings
   - Gestalt principles
   - Preattentive attributes
 :::
 
-::: {.fragment}
+::: {.fragment  fragment-index='4'}
 - Data viz best practices
   - What makes visualizations good (and not-so-good)
 :::
 
-::: {.fragment}
+::: {.fragment fragment-index='5'}
 - Types of visualizations and their use cases
   - Advancement-specific examples
 :::
@@ -116,16 +131,14 @@ Why not just stick to Excel sheets or tables with raw numbers?
 
 . . .
 
-Let's start with an essential example:
-
 ### Anscombe's Quartet
 
 ::: {.fragment}
 :::: {.columns}
 
 ::: {.column width=70%}
-- Published in 1973 by English statistician Francis Anscombe.
-- The Quartet is comprised of 4 sets of paired x- and y-values.
+- Published in 1973 by English statistician Francis Anscombe
+- The Quartet is comprised of 4 sets of paired x- and y-values
   - *x*: horizontal axis
   - *y*: vertical axis
 - Let's take a look at the data and see what we observe!
@@ -484,6 +497,12 @@ anscombe_grp_sum <- gt_two_column_layout(list(
 ))
 ```
 
+::: {.notes}
+- On the left we can see the dataset
+- On the right we have summary stats: averages, variance, and standard deviation for the x and y values, as well as correlation and R-squared, which is a measure that tells you how much of the variation in your data is explained by your variables
+- What jumps out?
+:::
+
 ::: {.r-stack}
 ::: {.fragment .fade-out fragment-index='0'}
 ```{r anscombe-grp}
@@ -649,6 +668,17 @@ percep_bar_lab
 [<u>Gestalt</u> $\approx$ unified whole, configuration]{.highlight-orange}
 :::
 
+::: {.notes}
+- Gestalt = literally form or pattern, roughly "unified whole" or "configuration"
+- The whole is *different* from the sum of its parts; not necessarily more or better (it could be!), just different
+- Gestalt theory refers to how the human brain tends to orgranize visual elements into groups
+- Useful framework for creating visualizations that tap into readers' visual processing network
+- **These are principles of perception---not rules!**
+  - We consider these when trying to make visualizations easier to process
+- Closure: useful to bear in mind with missing data---be intentional with how we work around gaps because our tendency to close empty space could ellide the material reality of the data
+- Continuity: can be case-by-case---if there is an important categorical order that must be maintained (e.g., campaign pillars), we may forgo this principle
+:::
+
 . . .
 
 Our brains tend to group objects based on some of the following criteria:
@@ -688,16 +718,7 @@ Our brains tend to group objects based on some of the following criteria:
 :::
 ::::
 
-::: {.notes}
-- Gestalt = literally form or pattern, roughly "unified whole" or "configuration"
-- The whole is *different* from the sum of its parts; not necessarily more or better (it could be!), just different
-- Gestalt theory refers to how the human brain tends to orgranize visual elements into groups
-- Useful framework for creating visualizations that tap into readers' visual processing network
-- **These are principles of perception---not rules!**
-  - We consider these when trying to make visualizations easier to process
-- Closure: useful to bear in mind with missing data---be intentional with how we work around gaps because our tendency to close empty space could ellide the material reality of the data
-- Continuity: can be case-by-case---if there is an important categorical order that must be maintained (e.g., campaign pillars), we may forgo this principle
-:::
+
 
 ## Examples of Gestalt Principles
 
@@ -1137,6 +1158,12 @@ conn_p3
 
 ## Preattentive Processing
 
+::: {.notes}
+- We don't have to think about these
+- Pre-attentive: before we're paying attention
+- Alleviates some of the work we have to do for our readers
+:::
+ 
 ::: {style='text-align: center;'}
 ![Some common preattentive attributes (Source: [Tableau Blueprint](https://help.tableau.com/current/blueprint/en-us/bp_why_visual_analytics.htm))](./preattentive_attribs.png){fig-align="center" width=80%}
 :::
@@ -1479,7 +1506,7 @@ In *Better Data Visualizations* [-@schwabish-2021], Jon Schwabish offers 5 guide
 :::
 
 ::: {.notes}
-
+- I paid $3 for this digital download on Jon's Etsy shop, so when I share this out, I encourage you to not reproduce these graphics for widespread or commercial distribution without proper credit
 :::
 
 ## Types of Visualizations
@@ -1491,6 +1518,14 @@ In *Better Data Visualizations* [-@schwabish-2021], Jon Schwabish offers 5 guide
 ::: {.notes}
 
 :::
+
+# Step-by-Step Example
+
+UNFINISHED SECTION
+
+High-level walkthrough using donor dataset for 2 types of charts: bar and line
+
+Demonstrate Schwabish's 5 guidelines to generate two simple, polished visuals
 
 ## Our Sample Dataset
 
@@ -1555,28 +1590,43 @@ giving_history <- read_csv(
 #     clean_names()
 ```
 
-## Step-by-Step Example
+## Which Areas are US Regional Donors Supporting?
 
-UNFINISHED SECTION
+```{r}
+regional_donors <- donors %>% 
+  left_join(giving_history, by = c('id'= 'donor_id')) %>% 
+  filter(last_gift != 0 & geographic_region != 'International' & !is.na(designation) & year == max(year, na.rm = TRUE)) %>% 
+  group_by(geographic_region, primary_constituent_type, designation) %>% 
+  summarize(dollars_raised = sum(gift_amount))
 
-High-level walkthrough using donor dataset for 2 types of charts: bar and line
+ggplot(regional_donors, aes(x = reorder(designation, -dollars_raised), y = dollars_raised)) +
+  geom_col()
 
-Demonstrate Schwabish's 5 guidelines to generate two simple, polished visuals
+```
+
 
 # Case Studies
 
 ## Medication Effectiveness
 
+::: {.notes}
+- Along the vertical axis, we have the concentration of the medication in the blood
+- x-axis is time
+- So this is telling us how long the medication is in your bloodstream and ostensibly providing the intended effects
+- Given that, how would you describe what's happening to the drug concentration in the bloodstream in these two charts?
+- the chart on the right makes it seem like it works better, longer
+:::
+
 These two charts are based on the same blood plasma concentration data...
 
 :::: {.columns}
 ::: {.column width=50%}
-![](./oxycontin_linear_redacted.jpeg){fig-align="center" width=90%}
+![](./oxycontin_linear_redacted.jpeg){fig-align="center" width=90% .lightbox}
 :::
 
 ::: {.column width=50%}
 ::: {style="text-align: right;"}
-![](./oxycontin_logarithmic_redacted.jpeg){fig-align="center" width=90%}
+![](./oxycontin_logarithmic_redacted.jpeg){fig-align="center" width=90% .lightbox}
 
 *[...but they tell two different stories.]{.fragment}*
 :::
@@ -1604,16 +1654,41 @@ These two charts are based on the same blood plasma concentration data...
 ::: {.fragment .fade-in-then-semi-out}
 Can you guess which chart Purdue Pharma used in their prescription information materials from December 1995 until August 2010?
 :::
+:::
+:::
 
-::: {.fragment}
-::: {style="font-size: 125%;"}
-***[Data matters, and how you represent it matters, too.]{.highlight-orange}***
+##
+
+::: {.notes}
+- 2008 petition to the FDA to compel Purdue Pharma to cease using the misleading log scale graph
+- "Beginning on or about December 12, 1995, and continuing until on or about June 30, 2001, certain Purdue supervisors and employees, with the intent to defraud or mislead, marketed and promoted OxyContin as less addictive, less subject to abuse and diversion, and less likely to cause tolerance and withdrawal than other pain medications"
 :::
+
+::: {style="text-align: center; font-size: 150%;"}
+***[Data matters. How you represent it matters, too.]{.highlight-orange}***
 :::
+
+:::: {.columns}
+::: {.column width=50%}
+![](./Oxycontin_excerpt.png){fig-align="center" width=75% .lightbox}
 :::
+
+::: {.column width=50%}
+![](./oxycontin_rx_info.jpg){width=60% .lightbox}
+
+![](./Oxycontin_settlement.png){width=100% .lightbox}
 :::
+::::
 
 ## The Curious Conundrum of the Baltic Giantess(?)
+
+::: {.notes}
+-	Pink? For women? Groundbreaking. Did this graph also cost 7% more to produce?
+  - If you're unfamiliar with the pink tax and want something to be mad about, look it up
+-	The pink, the figure in the dress, the font: frankly, it’s a little ham-fisted with the “girly” motif, and I personally find it to be kind of pandering and reductive
+-	Think about the audience: is this the kind of visualization you’d want to share in a business meeting? Probably not!
+-	There’s nothing wrong with a silly or even a cheeky visual—there’s a time and a place for everything—but you want your audience to feel like their time and comprehension skills are being respected
+:::
 
 . . .
 
@@ -1642,18 +1717,51 @@ Can you guess which chart Purdue Pharma used in their prescription information m
 :::
 ::::
 
-::: {.notes}
--	Also, pink? For women? Groundbreaking. Did this graph also cost 7% more to produce?
--	The pink, the figure in the dress, the font: frankly, it’s a little ham-fisted with the “girly” motif, and I personally find it to be kind of pandering and reductive
--	Think about the audience: is this the kind of visualization you’d want to share in a business meeting? Probably not!
--	There’s nothing wrong with a silly or even a cheeky visual—there’s a time and a place for everything—but you want your audience to feel like their time and comprehension skills are being respected
+# Villanova Annual Giving Dashboards
+
+## 1842 Day Hour-by-Hour Reporting
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![Hourly donor count (running total).](./1842_donors.png){.lightbox}
+:::
+::: {.fragment .fade-in-then-out}
+![Dollars raised per hour.](./1842_dollars.png){.lightbox}
+:::
+::: {.fragment .fade-in}
+![Detail table of hourly dollars with YOY % change.](./1842_dollars_detail.png){width=60% .lightbox}
+:::
+:::
+
+## Villanova Annual Giving Year-To-Date Tracker
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![YTD progress summary.](./ytd_overview.png){width=80% .lightbox}
+:::
+::: {.fragment .fade-in-then-out}
+![Donor count, all constituencies.](./ytd_donors.png){width=80% .lightbox}
+:::
+::: {.fragment .fade-in}
+![Donor count, alumni only.](./ytd_alumni.png){width=80% .lightbox}
+:::
+:::
+
+## Pope Leo Christmas Ornament Progress
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+![Dollars raised from CYE Christmas ornament incentive.](./ornament_dollars.png){width=80% .lightbox}
+:::
+::: {.fragment .fade-in-then-out}
+![Count of incentivized gifts/total incentives fulfilled.](./ornament_qty.png){width=80% .lightbox}
+:::
+::: {.fragment .fade-in}
+![Christmas ornament YOY comparison.](./ornament_yoy.png){width=80% .lightbox}
+:::
 :::
 
 # Parting Thoughts
-
-## Designing for your Audience
-
-PLACEHOLDER: Form vs. Function, Exploratory vs. Explanatory
 
 ## The Artificial Intelli-phant in the Room
 
@@ -1671,36 +1779,36 @@ Well,
 
 ::: {.incremental}
 - It's 2026. AI is everywhere---so yes, you absolutely could have AI create visuals for you.
-  - AI can be a valuable tool when it comes to data analysis and coding visualizations.
-- Validating AI output often requires familiarity *beyond* just the basics of data viz.
-  - Every marathon runner first learned how to crawl.
+  - AI can be a valuable tool when it comes to data analysis and coding visualizations, but beware of black box analysis.
+  - Validating AI output requires familiarity *beyond* just the basics of data viz.
 - The quality of the input corresponds to the quality of the output.
-  - Describing the details of your business problem and your request in a way that AI will understand is the foundation of prompt engineering.
+  - Describing the details of your business problem and your request in a way that AI will understand is the foundation of good prompt engineering.
+- AI raises the floor for new learners and raises the ceiling for experts.
 :::
 
 ## Toward Good Data Stewardship
+
+::: {.notes}
+- Skewing, exaggerating, omitting, or otherwise misrepresenting data can have very material consequences, like the $7.4B national opioid settlement Purdue pharma and the Sackler family are on the hook for
+- Unless you’re a very confident and adept liar, you do NOT want to be put in this position
+- Even if you're be under pressure to appease stakeholders and show them what they *want* to see:
+  - Without the complete picture, we can’t make data-driven decisions like informed strategic pivots, and this ultimately hampers progress and works against organizational goals and stakeholder interests.
+:::
 
 ::: {style="text-align: center; font-size: 150%;"}
 **[<u>Transparency fosters trust</u>.]{.fragment .highlight-orange}**
 :::
 
 ::: {.incremental}
-- As data stewards, our prime directive should be to accurately and honestly represent our data.
+- As data storytellers, our prime directive should be to accurately and honestly represent our data.
 - Perceptive audiences *will* poke holes in visualizations that don't add up.
 - Where data comes from can feel like a black box for non-specialists---be someone that you'd want to put your faith in.
 - It's better to have the full picture than a convenient snippet---both strategically *and* ethically.
 :::
 
-::: {.notes}
-- A perceptive audience will poke holes in visuals that don’t add up, whether they skew, exaggerate, omit, or otherwise misrepresent the data
-- Unless you’re a very confident and adept liar, you do NOT want to be put in this position
-- Don't focus on appeasing stakeholders or advancing an agenda.
-- Without the complete picture, we can’t make data-driven decisions like informed strategic pivots, and this ultimately hampers progress and works against organizational goals.
-:::
+<!-- ## Resources
 
-## Resources
-
-Placeholder slide for resources 
+Placeholder slide for resources  -->
 
 ## Let's Keep in Touch!
 ```{r qr-contact}
