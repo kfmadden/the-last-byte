@@ -35,7 +35,7 @@ p_load(tidyverse)
 knitr::opts_chunk$set(dev.args = list(bg = 'transparent'))
 ```
 
-## Before We Begin...
+<!-- ## Before We Begin...
 ::: {style='text-align: center;'}
 *What is your level of experience with data visualizations?*
 :::
@@ -71,7 +71,7 @@ dev.off()
 ::: {.column width=80%}
 <div class="strawpoll-embed" id="strawpoll_w4nWWpQXlnA" style="height: 600px; max-width: 640px; height: 100%; width: 100%; margin: 0 auto; display: flex; flex-direction: column;"><iframe title="StrawPoll Embed" id="strawpoll_iframe_w4nWWpQXlnA" src="https://strawpoll.com/embed/w4nWWpQXlnA/results" style="position: static; visibility: visible; display: block; width: 100%; flex-grow: 1;" scrolling = "no" frameborder="0" allowfullscreen allowtransparency>Loading...</iframe><script nonce="MjVlOTZlZjc4YTdkMDcxNGUwYjA2ZDBmODI3ZWJjMWNiZTljNGM5NQ==" async src="https://cdn.strawpoll.com/dist/widgets.js" charset="utf-8"></script></div>
 :::
-::::
+:::: -->
 
 ## Session Overview
 
