@@ -8,6 +8,7 @@ date: 15 July 2026
 date-format: long
 format:
     revealjs:
+        multiplex: true
         embed-resources: true
         self-contained-math: true
         smaller: true
