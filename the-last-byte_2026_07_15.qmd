@@ -35,7 +35,7 @@ p_load(tidyverse)
 knitr::opts_chunk$set(dev.args = list(bg = 'transparent'))
 ```
 
-## Before We Begin...
+## Before We Begin... {visibility="hidden"}
 ::: {style='text-align: center;'}
 *What is your level of experience with data visualizations?*
 :::
@@ -56,7 +56,7 @@ dev.off()
 
 ![](./quiz1.png){fig-align="center" height=20%}
 
-## Pulse Check Results
+## Pulse Check Results {visibility="hidden"}
 
 ::: {.notes}
 :::
